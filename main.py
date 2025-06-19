@@ -1,22 +1,64 @@
+from functions import (
+    ExpenseManager,
+    CreateExpense,
+    ListExpenses,
+    UpdateExpense,
+    DeleteExpense,
+    SearchExpense
+)
 
-from functions import load_expenses, save_expenses
+def main():
+    manager = ExpenseManager()
 
-def print_expenses(expenses):
-    '''to print the expenses'''
-    print(f"{'Date':<12}{'Category':<15}{'Amount':<10}{'Description'}")
-    print("-" * 50)
-    for e in expenses:
-        print(f"{e['date']:<12}{e['category']:<15}{e['amount']:<10}{e['description']}")
+    while True:
+        print("\n==== Expense Tracker Menu ====")
+        print("1. Add Expense")
+        print("2. List Expenses")
+        print("3. Update Expense")
+        print("4. Delete Expense")
+        print("5. Search Expenses")
+        print("6. Exit")
 
-if __name__ == '__main__':
-    expenses = load_expenses()
+        choice = input("Enter your choice (1-6): ")
 
-    # Example data (optional - you can skip this if file already exists)
-    if not expenses:
-        expenses = [
-            {'date': '2025-06-18', 'category': 'Food', 'amount': '150', 'description': 'Lunch'},
-            {'date': '2025-06-18', 'category': 'Transport', 'amount': '50', 'description': 'Bus fare'}
-        ]
-        save_expenses(expenses)
+        if choice == '1':
+            date = input("Enter date (YYYY-MM-DD): ")
+            category = input("Enter category: ")
+            amount = input("Enter amount: ")
+            description = input("Enter description: ")
+            CreateExpense(manager).run(date, category, amount, description)
 
-    print_expenses(expenses)
+        elif choice == '2':
+            ListExpenses(manager).run()
+
+        elif choice == '3':
+            ListExpenses(manager).run()
+            try:
+                index = int(input("Enter index of expense to update: "))
+                field = input("Enter field to update (date, category, amount, description): ")
+                new_value = input("Enter new value: ")
+                UpdateExpense(manager).run(index, field, new_value)
+            except ValueError:
+                print("❌ Invalid input.")
+
+        elif choice == '4':
+            ListExpenses(manager).run()
+            try:
+                index = int(input("Enter index of expense to delete: "))
+                DeleteExpense(manager).run(index)
+            except ValueError:
+                print("❌ Invalid input.")
+
+        elif choice == '5':
+            keyword = input("Enter keyword to search: ")
+            SearchExpense(manager).run(keyword)
+
+        elif choice == '6':
+            print("👋 Exiting. Goodbye!")
+            break
+
+        else:
+            print("❌ Invalid choice. Please enter 1-6.")
+
+if __name__ == "__main__":
+    main()
