@@ -17,9 +17,11 @@ def main():
         print("3. Update Expense")
         print("4. Delete Expense")
         print("5. Search Expenses")
-        print("6. Exit")
+        print("6. Filter by Category")
+        print("7. Filter by Date Range")
+        print("8. Exit")
 
-        choice = input("Enter your choice (1-6): ")
+        choice = input("Enter your choice (1-8): ")
 
         if choice == '1':
             date = input("Enter date (YYYY-MM-DD): ")
@@ -53,8 +55,17 @@ def main():
             keyword = input("Enter keyword to search: ")
             SearchExpense(manager).run(keyword)
 
-        elif choice == '6':
-            print("👋 Exiting. Goodbye!")
+       elif choice == '6':
+            cat = input("Enter category to filter: ")
+            manager.filter_by_category(cat)
+
+        elif choice == '7':
+            start = input("Enter start date (YYYY-MM-DD): ")
+            end = input("Enter end date (YYYY-MM-DD): ")
+            manager.filter_by_date_range(start, end)
+
+        elif choice == '8':
+            print(" Exiting. Goodbye!")
             break
 
         else:
